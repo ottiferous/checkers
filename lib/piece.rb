@@ -7,11 +7,6 @@ class Piece
     @board = board
   end
 
-  # Black moves "down" the array if drawn
-  def slide_pos
-    @color == :black ? [[-1,1], [1,1]] : [[-1,-1], [1,-1]]
-  end
-
   def perform_slide(end_pos)
     start_pos = self.position
     if valid_slides(start_pos, end_pos).include? end_pos
@@ -37,6 +32,15 @@ class Piece
   end
   
   private
+  
+  # 'white' moves 'down' the array if drawn
+  def slide_vectors
+    @color == :white ? [[-1,1], [1,1]] : [[-1,-1], [1,-1]]
+  end
+  
+  def jump_vectors
+    @coclor == :white ? [[-2,2], [2,2]] : [[-2,-2], [2,-2]]
+  end
   
   def smush(x, y)
     new_x = x[0] + y[0]
