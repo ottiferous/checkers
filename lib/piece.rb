@@ -17,11 +17,12 @@ class Piece
     false
   end
     
-  def valid_slides(from_pos)
+  def valid_slides
     vectors = slide_vectors
     moves = []
     vectors.each do |vec|
-      test = smush(vec, from_pos)
+      p vec
+      test = smush(vec, self.position)
       moves << test if @board.empty?(test)
     end
     moves
@@ -64,11 +65,11 @@ class Piece
   
   # 'white' moves 'down' the array if drawn
   def slide_vectors
-    @color == :white ? [[-1,1], [1,1]] : [[-1,-1], [1,-1]]
+    @color == :white ? [[1,-1], [1,1]] : [[-1,-1], [-1,1]]
   end
   
   def jump_vectors
-    @coclor == :white ? [[-2,2], [2,2]] : [[-2,-2], [2,-2]]
+    @coclor == :white ? [[2,-2], [2,2]] : [[-2,-2], [-2,2]]
   end
   
   def smush(x, y)
