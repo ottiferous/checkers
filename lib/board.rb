@@ -26,15 +26,16 @@ class Board
     print "\n"
   end
     
-  
   def add_piece(piece, position)
     @rows[position[0]][position[1]] = piece.class.new(piece.color, piece.board, position)
   end
+
   def remove_piece_at(position)
     piece = @rows[position[0]][position[1]]
     piece.board = nil
     piece.position = nil
     piece = nil
+    @rows[position[0]][position[1]] = nil
   end
   
   def fill_in
