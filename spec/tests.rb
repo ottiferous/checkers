@@ -3,6 +3,12 @@ require "./board.rb"
 require "./piece.rb"
 require "./game.rb"
 
+describe Board do
+  before do
+    b = CheckersBoard.new
+  end
+  
+  it 'creates'
 describe Game do
   before do
     @g = Game.new
