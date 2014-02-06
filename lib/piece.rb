@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class Piece
 
-  attr_reader :color, :board, :position, :symbol
+  attr_accessor :color, :board, :position, :symbol
   def initialize(color, board, position)
     @color, @position = color, position
     @board = board
@@ -31,22 +31,37 @@ class Piece
 
   def perform_jump(end_pos)
     if valid_jumps.include? end_pos
-      jump_piece!(end_pos)
+      start_pos = self.position
+      
+      puts "start position: #{start_pos}"
+      mid_y = start_pos[0] + (start_pos[0] < end_pos[0] ? 1 : -1)
+      mid_x = start_pos[1] + (start_pos[1] < end_pos[1] ? 1 : -1)
+      
+      mid = [mid_y, mid_x]
+      puts "mid position: #{mid}"
+      move_piece!(end_pos)
+      @board.remove_piece_at(mid)
+      
       return true
     end
     
     false
   end
 
+    
   def valid_jumps
     vectors = jump_vectors
     moves = []
     vectors.each do |vec|
+
       test = smush(vec, self.position)
       hop_over_spot = smush((vec.map { |_| _ / 2 }), self.position)
       
       # end location is empty and interim spot has a piece of opposite color
-      if @board.empty?(test) && @board.color_at(hop_over_spot) != @color
+      
+      spot_color = @board.color_at(hop_over_spot)
+      spot_color = (spot_color.nil? ? false : spot_color)
+      if @board.empty?(test) && spot_color != false
         moves << test
       end
     end
