@@ -14,11 +14,11 @@ class Piece
     end
   end
     
-  def valid_slides(start_pos)
-    vectors = slide_pos
+  def valid_slides(from_pos)
+    vectors = slide_vectors
     moves = []
     vectors.each do |vec|
-      test = smush(vec, start_pos)
+      test = smush(vec, from_pos)
       moves << test if @board.empty?(test)
     end
     moves
