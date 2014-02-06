@@ -59,10 +59,15 @@ class CheckersBoard
   
   def [](pos)
     x, y = pos
-    @rows[y][x]
+    @rows[x][y]
+  end
+  
+  def valid_move?(position)
+    position.any? { |_| _ < 8 } ? true : false
   end
   
   def empty?(position)
+    return false if position.any? { |_| _ > 7 }
     self[position].nil? ? true : false
   end
   
