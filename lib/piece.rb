@@ -69,14 +69,22 @@ class Piece
     moves
   end
   
-  # Already checked to see if its a valid move - now we do it.
-  def move_piece!(end_pos)
-    @board[end_pos] = self
-    @board[self.position] = nil
-    @position = end_pos
+  def perform_moves(move_array)
+    
+    move_array.each do |move|
+      
+      if self.valid_slides.include? move
+        self.perform_slide(move)
+        break
+      elsif self.valid_jumps.include? move
+        self.perform_jump(move)
+        break
+      else
+        raise "An Invalid move was issued | #{move}"
+      end
+    end
   end
   
-  def jump_piece!(end_pos)
     @board[end_pos] = self
     @board[self.position] = nil
     @position = end_pos
