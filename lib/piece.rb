@@ -5,7 +5,7 @@ class Piece
   def initialize(color, board, position)
     @color, @position = color, position
     @board = board
-    @symbol = (color == :white ? "\u25D2" : "\u25D3")
+    @symbol = (color == :white ? "\u25CB" : "\u25CF")
   end
 
   def perform_slide(end_pos)
@@ -43,10 +43,8 @@ class Piece
     vectors = jump_vectors
     moves = []
     vectors.each do |vec|
-      p vec
       test = smush(vec, self.position)
-      p test
-      hop_over_spot = test.map { |_| _ / 2 }
+      hop_over_spot = smush((vec.map { |_| _ / 2 }), self.position)
       
       # end location is empty and interim spot has a piece of opposite color
       if @board.empty?(test) && @board.color_at(hop_over_spot) != @color
