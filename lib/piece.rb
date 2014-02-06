@@ -33,12 +33,10 @@ class Piece
     if valid_jumps.include? end_pos
       start_pos = self.position
       
-      puts "start position: #{start_pos}"
       mid_y = start_pos[0] + (start_pos[0] < end_pos[0] ? 1 : -1)
       mid_x = start_pos[1] + (start_pos[1] < end_pos[1] ? 1 : -1)
       
       mid = [mid_y, mid_x]
-      puts "mid position: #{mid}"
       move_piece!(end_pos)
       @board.remove_piece_at(mid)
       
@@ -85,10 +83,11 @@ class Piece
     end
   end
   
+  # Already checked to see if its a valid move - now we do it.
+  def move_piece!(end_pos)
     @board[end_pos] = self
     @board[self.position] = nil
     @position = end_pos
-    @position
   end
   
   private
