@@ -30,6 +30,12 @@ class Board
   def add_piece(piece, position)
     @rows[position[0]][position[1]] = piece.class.new(piece.color, piece.board, position)
   end
+  def remove_piece_at(position)
+    piece = @rows[position[0]][position[1]]
+    piece.board = nil
+    piece.position = nil
+    piece = nil
+  end
   
   def fill_in
 
@@ -60,6 +66,11 @@ class Board
   def [](pos)
     x, y = pos
     @rows[x][y]
+  end
+  
+  def []=(pos, piece)
+    x, y = pos
+    @rows[x][y] = piece
   end
   
   def valid_move?(position)

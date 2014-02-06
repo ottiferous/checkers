@@ -30,15 +30,14 @@ class Piece
   end
 
   def perform_jump(end_pos)
-    start_pos = self.position
-    if valid_jumps(start_pos, end_pos).include? end_pos
-      move_piece!(end_pos)
+    if valid_jumps.include? end_pos
+      jump_piece!(end_pos)
       return true
     end
     
     false
   end
-  
+
   def valid_jumps
     vectors = jump_vectors
     moves = []
@@ -59,7 +58,14 @@ class Piece
   def move_piece!(end_pos)
     @board[end_pos] = self
     @board[self.position] = nil
-    self.position = end_pos
+    @position = end_pos
+  end
+  
+  def jump_piece!(end_pos)
+    @board[end_pos] = self
+    @board[self.position] = nil
+    @position = end_pos
+    @position
   end
   
   private
