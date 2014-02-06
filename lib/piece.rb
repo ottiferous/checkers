@@ -11,7 +11,10 @@ class Piece
     start_pos = self.position
     if valid_slides(start_pos, end_pos).include? end_pos
       move_piece!(end_pos)
+      return true
     end
+    
+    false
   end
     
   def valid_slides(from_pos)
