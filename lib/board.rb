@@ -8,7 +8,13 @@ class CheckersBoard
 
   # replace with a render method later ( suprresses board info )
   def inspect
-  
+    @rows.each do |array_rows|
+      array_rows.each do |cell|
+        print (cell.nil? ? " " : "x" )
+      end
+      print "\n"
+    end
+      
     nil
   end
   
@@ -19,14 +25,14 @@ class CheckersBoard
   def fill_in
 
     # place back and front for :white
-    [0, 1].each do |row|
+    [0, 2].each do |row|
       (0..7).each do |x|
         @rows[row][x] = Piece.new(:white, self, [row, x]) if x.odd?
       end
     end
     # place middle row for :white
     (0..6).each do |x|
-      @rows[2][x] = Piece.new(:white, self, [1, x]) if x.even?
+      @rows[1][x] = Piece.new(:white, self, [1, x]) if x.even?
     end
     
     # place back and front for :red
