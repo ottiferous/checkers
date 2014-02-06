@@ -8,7 +8,9 @@ class CheckersBoard
 
   # replace with a render method later ( suprresses board info )
   def inspect
-    @rows.each do |array_rows|
+    render_top_rule
+    @rows.each_with_index do |array_rows, index|
+      print "#{index} "
       array_rows.each do |cell|
         print (cell.nil? ? " " : "x" )
       end
@@ -17,6 +19,13 @@ class CheckersBoard
       
     nil
   end
+  
+  def render_top_rule
+    print "  "
+    (0..7).each { |num| print "#{num}" }
+    print "\n"
+  end
+    
   
   def add_piece(piece, position)
     @rows[position[0]][position[1]] = piece.class.new(piece.color, piece.board, position)
@@ -42,7 +51,7 @@ class CheckersBoard
       end
     end
     # place middle row for :red
-    (0..6).each do |x|
+    (0..7).each do |x|
       @rows[6][x] = Piece.new(:red, self, [6, x]) if x.odd?
     end
       
@@ -50,7 +59,7 @@ class CheckersBoard
   
   def [](pos)
     x, y = pos
-    @rows[x][y]
+    @rows[y][x]
   end
   
   def empty?(position)
