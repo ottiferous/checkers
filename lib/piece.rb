@@ -67,7 +67,29 @@ class Piece
     moves
   end
   
+  def valid_sequence?(move_array)
+    test_board = self.board.dup
+    shadow = test_board[self.position]
+    begin
+      shadow.perform_moves!(move_array)
+    rescue InvalidMoveError => error
+      puts error.message
+      return false
+    else
+      return true
+    end
+  end
+  
   def perform_moves(move_array)
+    if valid_sequence?(move_array)
+      perform_moves!(move_array)
+      true
+    else
+      false
+    end
+  end
+
+  def perform_moves!(move_array)
     
     move_array.each do |move|
       
