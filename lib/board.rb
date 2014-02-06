@@ -1,5 +1,5 @@
-
-class CheckersBoard
+# -*- coding: utf-8 -*-
+class Board
 
   def initialize(pre_populate = true)
     @rows = Array.new(8) { Array.new(8) }
@@ -12,7 +12,7 @@ class CheckersBoard
     @rows.each_with_index do |array_rows, index|
       print "#{index} "
       array_rows.each do |cell|
-        print (cell.nil? ? " " : "x" )
+        print (cell.nil? ? " " : cell.symbol )
       end
       print "\n"
     end

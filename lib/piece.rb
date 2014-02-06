@@ -1,10 +1,11 @@
-
+# -*- coding: utf-8 -*-
 class Piece
 
-  attr_reader :color, :board, :position
+  attr_reader :color, :board, :position, :symbol
   def initialize(color, board, position)
     @color, @position = color, position
     @board = board
+    @symbol = (color == :white ? "\u25D2" : "\u25D3")
   end
 
   def perform_slide(end_pos)
@@ -38,11 +39,13 @@ class Piece
     false
   end
   
-  def valid_jumps(from_pos)
+  def valid_jumps
     vectors = jump_vectors
     moves = []
     vectors.each do |vec|
-      test = smush(vec, from_pos)
+      p vec
+      test = smush(vec, self.position)
+      p test
       hop_over_spot = test.map { |_| _ / 2 }
       
       # end location is empty and interim spot has a piece of opposite color
@@ -69,7 +72,7 @@ class Piece
   end
   
   def jump_vectors
-    @coclor == :white ? [[2,-2], [2,2]] : [[-2,-2], [-2,2]]
+    @color == :white ? [[2,-2], [2,2]] : [[-2,-2], [-2,2]]
   end
   
   def smush(x, y)
