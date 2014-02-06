@@ -67,7 +67,7 @@ class Board
   end
   
   def empty?(position)
-    return false if position.any? { |_| _ > 7 }
+    return false unless position.all? { |_| _.between?(0,7) }
     self[position].nil? ? true : false
   end
   
@@ -76,7 +76,7 @@ class Board
   end
   
   def color_at(position)
-    self[position].color
+    self[position].nil? ? false : self[position].color
   end
   
 end
