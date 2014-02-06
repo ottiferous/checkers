@@ -64,6 +64,27 @@ class Board
       
   end
   
+  def dup
+    duped_board = Board.new(false)
+    
+    (0...8).each do |row|
+      (0...8).each do |col|
+        unless self[[col,row]].nil?
+          piece = self[[col,row]]
+          duped_board[[col,row]] = self[[col,row]].class.new(
+            piece.color,
+            duped_board,
+            piece.position.dup,
+            piece.symbol,
+            piece.king
+          )
+        end
+      end
+    end
+    
+    duped_board
+  end
+  
   def [](pos)
     x, y = pos
     @rows[x][y]
