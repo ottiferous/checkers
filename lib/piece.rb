@@ -23,6 +23,32 @@ class Piece
     end
     moves
   end
+
+  def perform_jump(end_pos)
+    start_pos = self.position
+    if valid_jumps(start_pos, end_pos).include? end_pos
+      move_piece!(end_pos)
+      return true
+    end
+    
+    false
+  end
+  
+  def valid_jumps(from_pos)
+    vectors = jump_vectors
+    moves = []
+    vectors.each do |vec|
+      test = smush(vec, from_pos)
+      hop_over_spot = test.map { |_| _ / 2 }
+      
+      # end location is empty and interim spot has a piece of opposite color
+      if @board.empty?(test) && @board.color_at(hop_over_spot) != @color
+        moves << test
+      end
+    end
+    
+    moves
+  end
   
   # Already checked to see if its a valid move - now we do it.
   def move_piece!(end_pos)
