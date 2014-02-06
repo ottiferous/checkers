@@ -2,13 +2,19 @@
 
 More info will be here later. This is the initial commit.
 
- b = CheckersBoard.new
- p = Piece.new(:red, b, [0,0])
- b.add_piece(p, [0,0])
- b[[0,0]].valid_slides([0,0])
- 
- b[[1,1]].color
- b[[2,2]].valid_slides([2,2])
- b.add_piece(p,[3,3])
- b[[2,2]].valid_jumps([2,2])
- 
+# Tests
+
+Will create a new board, then try to place a piece on it. (3,1) is empty on the startign board layout.
+
+b = CheckersBoard.new
+p = Piece.new(:red, b, [3,1])
+b.add_piece(p, [3,1])
+b[[3,1]].valid_slides([3,1])
+
+b[[1,1]].color
+b[[2,2]].valid_slides([2,2])
+b.add_piece(p,[3,3])
+b[[2,2]].valid_jumps([2,2])
+
+p = Piece.new(:white, b, [4,2])
+b.add_piece(p, [4,2])
