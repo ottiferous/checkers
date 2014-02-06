@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
+
+class InvalidMoveError < ArgumentError
+end
+
 class Piece
 
-  attr_accessor :color, :board, :position, :symbol
-  def initialize(color, board, position)
+  attr_accessor :color, :board, :position, :symbol, :king
+  def initialize(color, board, position, symbol=nil, king=false)
     @color, @position = color, position
     @board = board
     @symbol = (color == :white ? "\u25CB" : "\u25CF")
+    @king = king
   end
 
   def perform_slide(end_pos)
     start_pos = self.position
-    if valid_slides(start_pos, end_pos).include? end_pos
+    if valid_slides.include? end_pos
       move_piece!(end_pos)
       return true
     end
@@ -91,18 +96,21 @@ class Piece
 
   def perform_moves!(move_array)
     
+    active_piece = self
     move_array.each do |move|
       
       if self.valid_slides.include? move
         self.perform_slide(move)
-        break
+        active_piece = @board[move]
       elsif self.valid_jumps.include? move
         self.perform_jump(move)
-        break
+        active_piece = @board
       else
         raise "An Invalid move was issued | #{move}"
       end
     end
+
+    true
   end
   
   # Already checked to see if its a valid move - now we do it.
@@ -116,11 +124,19 @@ class Piece
   
   # 'white' moves 'down' the array if drawn
   def slide_vectors
-    @color == :white ? [[1,-1], [1,1]] : [[-1,-1], [-1,1]]
+    if @king == false
+      return (@color == :white ? [[1,-1], [1,1]] : [[-1,-1], [-1,1]])
+    else
+      return [[1,-1], [1,1], [-1,-1], [-1,1]]
+    end
   end
   
   def jump_vectors
-    @color == :white ? [[2,-2], [2,2]] : [[-2,-2], [-2,2]]
+    if @king == false
+      return (@color == :white ? [[2,-2], [2,2]] : [[-2,-2], [-2,2]])
+    else
+      return [[2,-2], [2,2], [-2,-2], [-2,2]]
+    end
   end
   
   def smush(x, y)
