@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-class InvalidMoveError < ArgumentError
-end
+class InvalidMoveError < ArgumentError; end
+class IllegalMoveError < ArgumentError; end
 
 class Piece
 
@@ -19,12 +19,7 @@ class Piece
   
   def perform_slide(end_pos)
     start_pos = self.position
-    if valid_slides.include? end_pos
-      move_piece!(end_pos)
-      return true
-    end
-    
-    false
+    moev_piece!(end_pos) if valid_slides.include? end_pos
   end
     
   def valid_slides
@@ -38,22 +33,15 @@ class Piece
   end
 
   def perform_jump(end_pos)
-    if valid_jumps.include? end_pos
-      start_pos = self.position
-      
-      mid_y = start_pos[0] + (start_pos[0] < end_pos[0] ? 1 : -1)
-      mid_x = start_pos[1] + (start_pos[1] < end_pos[1] ? 1 : -1)
-      
-      mid = [mid_y, mid_x]
-      move_piece!(end_pos)
-      @board.remove_piece_at(mid)
-      
-      return true
-    end
+    start_pos = self.position
     
-    false
+    mid_y = start_pos[0] + (start_pos[0] < end_pos[0] ? 1 : -1)
+    mid_x = start_pos[1] + (start_pos[1] < end_pos[1] ? 1 : -1)
+    
+    mid = [mid_y, mid_x]
+    move_piece!(end_pos)
+    @board.remove_piece_at(mid)
   end
-
     
   def valid_jumps
     vectors = jump_vectors
@@ -64,12 +52,10 @@ class Piece
       hop_over_spot = smush((vec.map { |_| _ / 2 }), self.position)
       
       # end location is empty and interim spot has a piece of opposite color
-      
       spot_color = @board.color_at(hop_over_spot)
       spot_color = (spot_color.nil? ? false : spot_color)
-      if @board.empty?(test) && spot_color != false
-        moves << test
-      end
+      
+      moves << test if (@board.empty?(test) && spot_color != false)
     end
     
     moves
@@ -89,12 +75,7 @@ class Piece
   end
   
   def perform_moves(move_array)
-    if valid_sequence?(move_array)
-      perform_moves!(move_array)
-      true
-    else
-      false
-    end
+    perform_moves!(move_array) if valid_sequence?(move_array)
   end
 
   def perform_moves!(move_array)
@@ -143,8 +124,6 @@ class Piece
   end
   
   def smush(x, y)
-    new_x = x[0] + y[0]
-    new_y = x[1] + y[1]
-    [new_x, new_y]
+    x.zip(y).map { |pair| pair.inject(:+) }
   end
 end
