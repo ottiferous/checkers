@@ -6,7 +6,7 @@ class Board
     fill_in if pre_populate
   end
 
-  # replace with a render method later ( suprresses board info )
+  # replace with a render method later
   def inspect
     render_top_rule
     @rows.each_with_index do |array_rows, index|
@@ -24,6 +24,10 @@ class Board
     print "  "
     (0..7).each { |num| print "#{num}" }
     print "\n"
+  end
+  
+  def draw
+    self.inspect
   end
     
   def add_piece(piece, position)
@@ -109,7 +113,7 @@ class Board
   end
   
   def color_at(position)
-    self[position].nil? ? false : self[position].color
+    self[position].nil? ? nil : self[position].color
   end
   
   def all_of(color)
