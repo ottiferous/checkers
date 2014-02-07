@@ -112,4 +112,8 @@ class Board
     self[position].nil? ? false : self[position].color
   end
   
+  def all_of(color)
+    @rows.flatten.compact.select{ |piece| piece.color == color }
+  end
+    
 end
