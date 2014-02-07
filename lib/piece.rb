@@ -13,6 +13,10 @@ class Piece
     @king = king
   end
 
+  def has_moves?
+    return (valid_slides.empty? && valid_jumps.empty? ? false : true)
+  end
+  
   def perform_slide(end_pos)
     start_pos = self.position
     if valid_slides.include? end_pos
@@ -27,7 +31,6 @@ class Piece
     vectors = slide_vectors
     moves = []
     vectors.each do |vec|
-      p vec
       test = smush(vec, self.position)
       moves << test if @board.empty?(test)
     end
